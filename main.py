@@ -15,11 +15,29 @@ if not os.path.exists(DATA_FOLDER):
 # -------------------------------
 def load_users():
     users = {}
+
     if os.path.exists(USER_FILE):
         with open(USER_FILE, "r") as f:
             for line in f:
-                username, password = line.strip().split(",")
+                line = line.strip()
+
+                # skip empty lines
+                if not line:
+                    continue
+
+                # safe split check
+                if "," not in line:
+                    continue
+
+                parts = line.split(",")
+
+                # ensure correct format
+                if len(parts) != 2:
+                    continue
+
+                username, password = parts
                 users[username] = password
+
     return users
 
 
